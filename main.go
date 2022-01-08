@@ -3,39 +3,36 @@
  * @Author: neozhang
  * @Date: 2022-01-08 12:46:37
  * @LastEditors: neozhang
- * @LastEditTime: 2022-01-08 13:03:23
+ * @LastEditTime: 2022-01-08 22:02:40
  */
 package main
 
 import (
-	"fmt"
-	"io/ioutil"
-	"net/http"
-
-	"golang.org/x/text/encoding/simplifiedchinese"
-	"golang.org/x/text/transform"
+	"mgdcrawler/config"
+	"mgdcrawler/engine"
+	"mgdcrawler/persist"
+	"mgdcrawler/scheduler"
+	"mgdcrawler/zhenai/parser"
 )
 
 func main() {
-	resp, err := http.Get("http://www.zhenai.com/zhenghun")
+	itemChan, err := persist.ItemSaver(
+		config.ElasticIndex)
 	if err != nil {
 		panic(err)
 	}
-	defer resp.Body.Close()
 
-	if resp.StatusCode != http.StatusOK {
-		fmt.Println("Error: status code", resp.StatusCode)
-		return
+	e := engine.ConcurrentEngine{
+		Scheduler:        &scheduler.QueuedScheduler{},
+		WorkerCount:      100,
+		ItemChan:         itemChan,
+		RequestProcessor: engine.Worker,
 	}
-	//乱码转中文
-	utf8Reader := transform.NewReader(resp.Body, simplifiedchinese.GBK.NewDecoder())
 
-	all, err := ioutil.ReadAll(utf8Reader)
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("%s\n", string(all))
+	e.Run(engine.Request{
+		Url: "http://localhost:8080/mock/www.zhenai.com/zhenghun",
+		Parser: engine.NewFuncParser(
+			parser.ParseCityList,
+			config.ParseCityList),
+	})
 }
-
-// func determineEncodeing(r io.Reader) encoding.Encoding {
-// }
