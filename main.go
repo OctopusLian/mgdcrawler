@@ -3,7 +3,7 @@
  * @Author: neozhang
  * @Date: 2022-01-08 12:46:37
  * @LastEditors: neozhang
- * @LastEditTime: 2022-01-08 12:57:44
+ * @LastEditTime: 2022-01-08 13:03:23
  */
 package main
 
@@ -36,3 +36,6 @@ func main() {
 	}
 	fmt.Println("%s\n", string(all))
 }
+
+// func determineEncodeing(r io.Reader) encoding.Encoding {
+// }
