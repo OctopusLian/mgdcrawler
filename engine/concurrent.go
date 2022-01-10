@@ -7,6 +7,8 @@
  */
 package engine
 
+import "fmt"
+
 type ConcurrentEngine struct {
 	Scheduler        Scheduler //Scheduler来源
 	WorkerCount      int       //worker数量
@@ -28,6 +30,7 @@ type ReadyNotifier interface {
 }
 
 func (e *ConcurrentEngine) Run(seeds ...Request) {
+	fmt.Println("开始")
 	out := make(chan ParseResult) //创建输出通道
 	e.Scheduler.Run()
 
@@ -47,6 +50,7 @@ func (e *ConcurrentEngine) Run(seeds ...Request) {
 		for _, item := range result.Items {
 			go func(i Item) {
 				e.ItemChan <- i
+				fmt.Println(i)
 			}(item)
 		}
 
@@ -54,6 +58,7 @@ func (e *ConcurrentEngine) Run(seeds ...Request) {
 			if isDuplicate(request.Url) {
 				continue
 			}
+			fmt.Println(request)
 			e.Scheduler.Submit(request)
 		}
 	}
@@ -73,6 +78,7 @@ func (e *ConcurrentEngine) createWorker(
 				continue
 			}
 			out <- result //将结果发给out通道
+			fmt.Println(request)
 		}
 	}()
 }
