@@ -3,7 +3,7 @@
  * @Author: neozhang
  * @Date: 2022-01-08 21:46:55
  * @LastEditors: neozhang
- * @LastEditTime: 2022-01-08 21:49:23
+ * @LastEditTime: 2022-01-10 15:54:33
  */
 package persist
 
@@ -37,6 +37,7 @@ func ItemSaver(index string) (chan engine.Item, error) {
 
 			err := Save(client, index, item)
 			if err != nil {
+				//出错了直接打个日志记录下即可
 				log.Printf("Item Saver: error "+
 					"saving item %v: %v",
 					item, err)
@@ -48,23 +49,20 @@ func ItemSaver(index string) (chan engine.Item, error) {
 }
 
 func Save(
-	client *elastic.Client, index string,
+	client *elastic.Client,
+	index string,
 	item engine.Item) error {
 
 	if item.Type == "" {
 		return errors.New("must supply Type")
 	}
 
-	indexService := client.Index().
-		Index(index).
-		Type(item.Type).
-		BodyJson(item)
+	indexService := client.Index().Index(index).Type(item.Type).BodyJson(item)
 	if item.Id != "" {
 		indexService.Id(item.Id)
 	}
 
-	_, err := indexService.
-		Do(context.Background())
+	_, err := indexService.Do(context.Background())
 
 	return err
 }

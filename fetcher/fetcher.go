@@ -3,7 +3,7 @@
  * @Author: neozhang
  * @Date: 2022-01-08 21:46:55
  * @LastEditors: neozhang
- * @LastEditTime: 2022-01-08 21:48:05
+ * @LastEditTime: 2022-01-10 16:26:46
  */
 package fetcher
 
@@ -63,10 +63,10 @@ func determineEncoding(
 	r *bufio.Reader) encoding.Encoding {
 	bytes, err := r.Peek(1024)
 	if err != nil {
+		//fmt.Println("err is :"err)
 		log.Printf("Fetcher error: %v", err)
 		return unicode.UTF8
 	}
-	e, _, _ := charset.DetermineEncoding(
-		bytes, "")
+	e, _, _ := charset.DetermineEncoding(bytes, "")
 	return e
 }
