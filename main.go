@@ -3,7 +3,7 @@
  * @Author: neozhang
  * @Date: 2022-01-08 12:46:37
  * @LastEditors: neozhang
- * @LastEditTime: 2022-01-10 16:05:57
+ * @LastEditTime: 2022-01-10 16:48:53
  */
 package main
 
@@ -32,7 +32,7 @@ func main() {
 	e.Run(engine.Request{
 		//模拟url http://localhost:8080/mock/www.zhenai.com/zhenghun
 		//真实url http://www.zhenai.com/zhenghun
-		Url: "http://www.zhenai.com/zhenghun",
+		Url: "http://localhost:8080/mock/www.zhenai.com/zhenghun",
 		Parser: engine.NewFuncParser(
 			parser.ParseCityList,
 			config.ParseCityList),
