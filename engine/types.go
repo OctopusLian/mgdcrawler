@@ -3,7 +3,7 @@
  * @Author: neozhang
  * @Date: 2022-01-08 21:46:18
  * @LastEditors: neozhang
- * @LastEditTime: 2022-01-08 21:47:38
+ * @LastEditTime: 2022-01-10 19:01:57
  */
 package engine
 
@@ -51,6 +51,7 @@ type FuncParser struct {
 	name   string
 }
 
+//工厂模式
 func (f *FuncParser) Parse(
 	contents []byte, url string) ParseResult {
 	return f.parser(contents, url)
