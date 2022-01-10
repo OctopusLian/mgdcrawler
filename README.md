@@ -19,15 +19,12 @@ $ docker run -d -p 9200:9200 -p 9300:9300 elasticsearch
 1，确保本地运行了elasticsearch服务，通过`127.0.0.1:9200`验证  
 
 2，`go run mockserver/main.go`，运行模拟珍爱网的服务  
+![](./res/mock服务.png)  
 
 3，`go run main.go`，运行并发版爬虫main函数  
-
-4，`go run frontend/starter.go`，运行本地展现爬虫结果的前端  
-
-实现效果：  
-
 ![](./res/并发爬虫测试.png)  
 
+4，`go run frontend/starter.go`，运行本地展现爬虫结果的前端  
 ![](./res/爬虫前端测试1.png)  
 
 ![](./res/爬虫前端测试2.png)  
