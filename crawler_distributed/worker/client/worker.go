@@ -3,7 +3,7 @@
  * @Author: neozhang
  * @Date: 2022-01-10 19:07:54
  * @LastEditors: neozhang
- * @LastEditTime: 2022-01-10 19:07:54
+ * @LastEditTime: 2022-01-10 20:55:28
  */
 package client
 
@@ -18,8 +18,7 @@ import (
 func CreateProcessor(
 	clientChan chan *rpc.Client) engine.Processor {
 
-	return func(
-		req engine.Request) (
+	return func(req engine.Request) (
 		engine.ParseResult, error) {
 
 		sReq := worker.SerializeRequest(req)
@@ -32,7 +31,6 @@ func CreateProcessor(
 		if err != nil {
 			return engine.ParseResult{}, err
 		}
-		return worker.DeserializeResult(sResult),
-			nil
+		return worker.DeserializeResult(sResult), nil
 	}
 }

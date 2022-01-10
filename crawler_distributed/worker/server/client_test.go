@@ -3,7 +3,7 @@
  * @Author: neozhang
  * @Date: 2022-01-10 19:09:45
  * @LastEditors: neozhang
- * @LastEditTime: 2022-01-10 19:09:46
+ * @LastEditTime: 2022-01-10 20:48:04
  */
 package main
 
@@ -23,8 +23,7 @@ import (
 
 func TestCrawlService(t *testing.T) {
 	const host = ":9000"
-	go rpcsupport.ServeRpc(
-		host, worker.CrawlService{})
+	go rpcsupport.ServeRpc(host, worker.CrawlService{})
 	time.Sleep(time.Second)
 
 	client, err := rpcsupport.NewClient(host)
